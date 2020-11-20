@@ -3,8 +3,10 @@ jdk:
   - openjdk8
 before_install:
   - pip install --user codecov
+before_script:
+  cat $TRAVIS_COMMIT_RANGE
 script:
-  mvn edu.illinois:nondex-maven-plugin:1.1.2:nondex
+  mvn edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest=com.alibaba.json.bvt.support.spring.mock.testcase.FastJsonpHttpMessageConverter4Case1Test.test1_2
 after_success:
   - codecov
 branches:
