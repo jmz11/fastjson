@@ -4,8 +4,8 @@ jdk:
 before_install:
   - pip install --user codecov
 script:
-  echo $TRAVIS_COMMIT_RANGE
-  mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DfailIfNoTests=false -Dtest=com.alibaba.json.bvt.support.spring.mock.testcase.FastJsonpHttpMessageConverter4Case1Test.test1_2
+  - echo $TRAVIS_COMMIT_RANGE
+  - mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DfailIfNoTests=false -Dtest=com.alibaba.json.bvt.support.spring.mock.testcase.FastJsonpHttpMessageConverter4Case1Test.test1_2
 after_success:
   - codecov
 branches:
