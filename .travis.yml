@@ -3,6 +3,8 @@ jdk:
   - openjdk8
 before_install:
   - pip install --user codecov
+script:
+  mvn edu.illinois:nondex-maven-plugin:1.1.2:nondex
 after_success:
   - codecov
 branches:
