@@ -9,7 +9,7 @@ before_script:
 script:
   - echo $TRAVIS_COMMIT_RANGE
   - echo $nondextests
-  - if [[ ! -z $nondextests ]]; then mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DfailIfNoTests=false -Dtest=$nondextests; fi
+  - if [[ ! -z $nondextests ]]; then mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondextests; fi
 after_success:
   - codecov
 branches:
