@@ -13,6 +13,7 @@ public class Issue2182 extends TestCase {
         multimap.put("admin", "admin.delete");
         multimap.put("user", "user.create");
         multimap.put("user", "user.delete");
+        System.out.println("Test known flaky test");
 
         String json = JSON.toJSONString(multimap);
         assertEquals("{\"admin\":[\"admin.create\",\"admin.update\",\"admin.delete\"],\"user\":[\"user.create\",\"user.delete\"]}", json);
