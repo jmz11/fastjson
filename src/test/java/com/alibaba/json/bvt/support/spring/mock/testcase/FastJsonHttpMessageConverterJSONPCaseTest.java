@@ -87,7 +87,6 @@ public class FastJsonHttpMessageConverterJSONPCaseTest {
     @Test
     public void test1_2() throws Exception {
 
-        System.out.println("Test known flaky test");
         ResultActions actions = mockMvc.perform((post("/jsonp-fastjsonview/test1?callback=fnUpdateSome").characterEncoding(
                 "UTF-8").contentType(MediaType.APPLICATION_JSON)));
         actions.andDo(print());
