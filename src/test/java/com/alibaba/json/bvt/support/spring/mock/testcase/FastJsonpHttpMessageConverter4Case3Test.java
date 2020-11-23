@@ -92,7 +92,7 @@ public class FastJsonpHttpMessageConverter4Case3Test {
 
     @Test
     public void test1_2() throws Exception {
-        System.out.println("Test known flaky test");
+
         JSONObject json = new JSONObject();
 
         json.put("id", 123);
