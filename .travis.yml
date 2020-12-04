@@ -5,7 +5,7 @@ before_install:
   - pip install --user codecov
 before_script:
   - if [ -z $TRAVIS_COMMIT_RANGE ]; then TRAVIS_COMMIT_RANGE=$(git rev-parse master)...$(git rev-parse HEAD); fi
-  - nondexTests=$(git diff --name-status $TRAVIS_COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); fi
+  - nondexTests=$(git diff --name-status $TRAVIS_COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ',');
 script:
   - if [ ! -z $nondexTests ]; then \
       printf "Running NonDex on tests:\n$nondexTests \n" ; \
