@@ -22,5 +22,27 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Test with Maven
         run: mvn test -B --file pom.xml
+  
+  nondex:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        java: [8]
+      fail-fast: false
+      max-parallel: 4
+    name: NonDex Test JDK ${{ matrix.java }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Test with NonDex
+      - run: if [[ -z $TRAVIS_COMMIT_RANGE ]]; then TRAVIS_COMMIT_RANGE=$(git rev-parse master)...$(git rev-parse HEAD); fi
+      - run: nondextests=$(git diff --name-status $TRAVIS_COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); fi
+      - run: if [ ! -z $nondexTests ]; then printf "Running NonDex on tests:\n$nondexTests \n" ; mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondexTests ; fi
+      - run: if [ -d ".nondex" ]; then flakyTests=$(awk ' !x[$0]++' .nondex/*/failures); fi
+      - run: if [ ! -z "$flakyTests" ]; then printf "Found flaky tests:\n$flakyTests \n" ; exit 1 ; fi
 
 ...
