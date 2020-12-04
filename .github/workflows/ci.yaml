@@ -43,6 +43,12 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Get commit range
         run: COMMIT_RANGE=$(git rev-parse origin/master)...$(git rev-parse HEAD); echo $COMMIT_RANGE;
+      - name: Debug git diff
+        run: git diff --name-status $COMMIT_RANGE
+      - name: Debug grep
+        run: git diff --name-status $COMMIT_RANGE | grep /test/
+      - name: Debug sed
+        run: git diff --name-status $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g'
       - name: Get nondexTests
         run: nondexTests=$(git diff --name-status $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); echo $nondexTests;
       - name: Run NonDex
