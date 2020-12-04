@@ -86,7 +86,7 @@ public class FastJsonpHttpMessageConverter4Case2Test {
 
     @Test
     public void test1_2() throws Exception {
-        System.out.println("test github workflow again!!");
+        System.out.println("debug test github workflow again!!");
 
         JSONObject json = new JSONObject();
 
