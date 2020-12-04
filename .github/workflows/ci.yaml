@@ -28,12 +28,12 @@ jobs:
         run: mvn test -B --file pom.xml
   
   nondex:
-    runs-on: ubuntu-18.04
+    runs-on: macOS-latest
     strategy:
       matrix:
         java: [8]
       fail-fast: false
-    name: NonDex Test JDK ${{ matrix.java }}, ubuntu-18.04
+    name: NonDex Test JDK ${{ matrix.java }}, macOS-latest
 
     steps:
       - uses: actions/checkout@v1
