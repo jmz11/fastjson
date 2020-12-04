@@ -44,13 +44,13 @@ jobs:
       - name: Get commit range
         run: COMMIT_RANGE=$(git rev-parse origin/master)...$(git rev-parse HEAD); echo $COMMIT_RANGE;
       - name: Debug git diff
-        run: DIFF_FILES=$(git diff --name-status $COMMIT_RANGE); echo $DIFF_FILES ;
+        run: DIFF_FILES=$(git diff --name-status --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}); echo $DIFF_FILES ;
       - name: Debug grep
-        run: DIFF_TESTS=$(git diff --name-status $COMMIT_RANGE | grep '/test/'); echo $DIFF_TESTS ;
+        run: echo $(echo $DIFF_FILES | grep '/test/');
       - name: Debug sed
-        run: SED_OUT=$(git diff --name-status $COMMIT_RANGE | grep '/test/' | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g'); echo $SED_OUT ;
+        run: echo $(echo $DIFF_FILES | grep '/test/' | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g');
       - name: Get nondexTests
-        run: nondexTests=$(git diff --name-status $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); echo $nondexTests;
+        run: nondexTests=$(echo $DIFF_FILES | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); echo $nondexTests;
       - name: Run NonDex
         run: if [ ! -z $nondexTests ]; then printf "Running NonDex on tests:\n$nondexTests \n" ; mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondexTests ; fi
       - name: Find flakyTests 
