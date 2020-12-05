@@ -9,9 +9,16 @@ echo $nondextests
 
 if [ ! -z $nondextests ]
 then 
-    mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondextests 
+    mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondextests > /dev/null 2>&1 
 fi  
 if [ -d ".nondex" ]
 then
     flakyTests=$(awk ' !x[$0]++' .nondex/*/failures)
+fi
+if [ ! -z "$flakyTests" ]
+then 
+    printf "Found flaky tests:\n$flakyTests \n" ;
+    exit 1 ;
+else 
+    printf "No flaky tests found.\n" ; 
 fi
