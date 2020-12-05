@@ -86,7 +86,7 @@ public class FastJsonpHttpMessageConverter4Case2Test {
 
     @Test
     public void test1_2() throws Exception {
-        System.out.println("0V0!!");
+        System.out.println("0V0!");
 
         JSONObject json = new JSONObject();
 
