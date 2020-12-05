@@ -43,6 +43,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Run NonDex
-        run: ./nondex.sh
+        run: sh ./nondex.sh
 
 ...
