@@ -4,7 +4,7 @@ if [[ -z $TRAVIS_COMMIT_RANGE ]]
 then 
     COMMIT_RANGE=$(git rev-parse origin/master)...$(git rev-parse HEAD)
 fi
-nondextests=$(git diff --name-status $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); 
+nondextests=$(git diff --name-status --diff-filter=AM $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); 
 
 if [ ! -z $nondextests ]
 then
