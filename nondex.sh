@@ -2,13 +2,13 @@
 
 if [[ -z $TRAVIS_COMMIT_RANGE ]]
 then 
-    TRAVIS_COMMIT_RANGE=$(git rev-parse origin/master)...$(git rev-parse HEAD)
+    COMMIT_RANGE=$(git rev-parse origin/master)...$(git rev-parse HEAD)
 fi
-nondextests=$(git diff --name-status $TRAVIS_COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); 
-echo $nondextests
+nondextests=$(git diff --name-status $COMMIT_RANGE | grep /test/ | sed -e 's;.*test/java/;;' -e 's/.java//' -e 's;/;.;g' | tr '\n' ','); 
 
 if [ ! -z $nondextests ]
-then 
+then
+    printf "Running NonDex on tests:\n$nondexTests\n" ;
     mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondextests > /dev/null 2>&1 
 fi  
 if [ -d ".nondex" ]
@@ -17,7 +17,7 @@ then
 fi
 if [ ! -z "$flakyTests" ]
 then 
-    printf "Found flaky tests:\n$flakyTests \n" ;
+    printf "Found flaky tests:\n$flakyTests\n" ;
     exit 1 ;
 else 
     printf "No flaky tests found.\n" ; 
