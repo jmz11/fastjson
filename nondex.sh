@@ -8,7 +8,7 @@ nondextests=$(git diff --name-status --diff-filter=AM $COMMIT_RANGE | grep /test
 
 if [ ! -z $nondextests ]
 then
-    printf "Running NonDex on tests:\n$nondexTests\n" ;
+    printf "Running NonDex on tests:\n$nondextests\n" ;
     mvn -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn edu.illinois:nondex-maven-plugin:1.1.2:nondex -DnondexSeed=$RANDOM -DnondexRuns=10 -DfailIfNoTests=false -Dtest=$nondextests > /dev/null 2>&1 
 fi  
 if [ -d ".nondex" ]
